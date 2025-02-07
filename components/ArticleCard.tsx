@@ -1,39 +1,13 @@
 import { Post } from "@/types";
-import {
-	View,
-	StyleSheet,
-	Text,
-	ImageBackground,
-	Linking,
-	Button,
-} from "react-native";
+import { View, StyleSheet, Text, ImageBackground, Linking } from "react-native";
 import { IconButton } from "./IconButton";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo from "@expo/vector-icons/Entypo";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { savePostsInStorage } from "@/utils/savePostUtils";
 
 export const ArticleCard: React.FC<{ post: Post }> = ({ post }) => {
 	const savePost = async (post: Post) => {
-		let postsToSave: Post[] = [post];
-
-		try {
-			const value = await AsyncStorage.getItem("saved-posts");
-
-			if (value) {
-				console.log(value);
-
-				const existingSavedPosts: Post[] = JSON.parse(value);
-
-				postsToSave = [post, ...existingSavedPosts];
-			}
-
-			await AsyncStorage.setItem(
-				"saved-posts",
-				JSON.stringify(postsToSave)
-			);
-		} catch (e) {
-			throw new Error("Couldnt Save Post");
-		}
+		await savePostsInStorage(post);
 	};
 
 	return (
