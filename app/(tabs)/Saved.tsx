@@ -1,55 +1,38 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import {
+	StyleSheet,
+	View,
+	FlatList,
+	GestureResponderEvent,
+} from "react-native";
 import { Post } from "@/types";
 import { SaveCard } from "@/components/SaveCard";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+	getSavedPostsFromStorage,
+	savePostsInStorage,
+} from "@/utils/savePostUtils";
 
 export default function Saved() {
-	const [savedPosts, setSavedPosts] = useState<Post[] | undefined>();
+	const [savedPosts, setSavedPosts] = useState<Post[]>([]);
 
-	const getSavedPosts = async () => {
-		// await AsyncStorage.setItem("saved-posts", JSON.stringify([]));
-		try {
-			const value = await AsyncStorage.getItem("saved-posts");
-
-			if (value) {
-				setSavedPosts(JSON.parse(value) as Post[]);
-			}
-		} catch (e) {
-			throw new Error("Error loading posts");
-		}
-	};
-
-	const handleDelete = async (id: number) => {
-		console.log("CALLED", id);
+	const handleDelete = async (e: GestureResponderEvent, id: number) => {
+		e.stopPropagation();
 
 		let postsToSave: Post[] = [];
 
-		try {
-			const value = await AsyncStorage.getItem("saved-posts");
+		const existingSavedPosts = (await getSavedPostsFromStorage()) ?? [];
 
-			if (value) {
-				const existingSavedPosts = JSON.parse(value) as Post[];
+		postsToSave = existingSavedPosts.filter((post) => post.pageId != id);
 
-				postsToSave = existingSavedPosts.filter((post) => {
-					console.log(post.pageId);
-					return post.pageId !== id;
-				});
-			}
-
-			setSavedPosts(postsToSave);
-
-			await AsyncStorage.setItem(
-				"saved-posts",
-				JSON.stringify(postsToSave)
-			);
-		} catch (e) {
-			throw new Error("Couldnt Save Post");
-		}
+		setSavedPosts(postsToSave);
+		await savePostsInStorage(postsToSave);
 	};
 
 	useEffect(() => {
-		// console.log("EFFEECTCTCT");
+		const getSavedPosts = async () => {
+			const value = (await getSavedPostsFromStorage()) ?? [];
+			setSavedPosts(value);
+		};
 
 		getSavedPosts();
 	}, []);

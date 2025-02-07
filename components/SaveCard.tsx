@@ -1,13 +1,21 @@
 import { Image } from "expo-image";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	Linking,
+	TouchableOpacity,
+	GestureResponderEvent,
+} from "react-native";
 import { Post } from "@/types";
+import { Entypo } from "@expo/vector-icons";
 
 export const SaveCard: React.FC<{
 	save: Post;
-	handleDelete: (pageId: number) => void;
+	handleDelete: (e: GestureResponderEvent, pageId: number) => void;
 }> = ({ save, handleDelete }) => {
 	return (
-		<TouchableOpacity onPress={() => handleDelete(save.pageId)}>
+		<TouchableOpacity onPress={() => Linking.openURL(save.wikiUrl)}>
 			<View style={styles.container}>
 				<Image
 					style={styles.thumbnail}
@@ -15,9 +23,19 @@ export const SaveCard: React.FC<{
 					contentFit="cover"
 					transition={1000}
 				/>
-				<Text numberOfLines={1} style={styles.title}>
+				<Text
+					numberOfLines={2}
+					ellipsizeMode="tail"
+					style={styles.title}
+				>
 					{save.title}
 				</Text>
+				<TouchableOpacity
+					onPress={(e) => handleDelete(e, save.pageId)}
+					style={styles.delete}
+				>
+					<Entypo name="cross" color={"#919093"} size={35} />
+				</TouchableOpacity>
 			</View>
 		</TouchableOpacity>
 	);
@@ -44,5 +62,10 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		color: "#e0e0e0",
 		marginLeft: 10,
+		width: 200,
+	},
+	delete: {
+		position: "absolute",
+		right: 20,
 	},
 });

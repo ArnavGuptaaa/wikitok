@@ -59,7 +59,6 @@ export default function TabLayout() {
 						<TabBarIcon name="bookmark-o" color={color} />
 					),
 				}}
-				// listeners={() => ({ tabPress: () => console.log("PRESSED") })}
 			/>
 		</Tabs>
 	);
