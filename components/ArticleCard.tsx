@@ -3,11 +3,33 @@ import { View, StyleSheet, Text, ImageBackground, Linking } from "react-native";
 import { IconButton } from "./IconButton";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo from "@expo/vector-icons/Entypo";
-import { savePostsInStorage } from "@/utils/savePostUtils";
+import {
+	getSavedPostsFromStorage,
+	savePostsInStorage,
+} from "@/utils/savePostUtils";
+import { useState } from "react";
 
 export const ArticleCard: React.FC<{ post: Post }> = ({ post }) => {
+	const [isSaved, setIsSaved] = useState<boolean>(false);
+
 	const savePost = async (post: Post) => {
-		await savePostsInStorage(post);
+		if (isSaved) {
+			// Unsave Logic
+			let savedPosts: Post[] | null = await getSavedPostsFromStorage();
+
+			if (savedPosts) {
+				savedPosts = savedPosts.filter(
+					(save) => save.pageId != post.pageId
+				);
+
+				await savePostsInStorage(savedPosts);
+			}
+		} else {
+			// Save Logic
+			await savePostsInStorage(post);
+		}
+
+		setIsSaved((prev) => !prev);
 	};
 
 	return (
@@ -24,9 +46,9 @@ export const ArticleCard: React.FC<{ post: Post }> = ({ post }) => {
 						<IconButton
 							icon={
 								<FontAwesome
-									name="bookmark-o"
+									name={isSaved ? "bookmark" : "bookmark-o"}
 									size={30}
-									color="#919093"
+									color={isSaved ? "#af9ecc" : "#919093"}
 								/>
 							}
 							label="Save"
@@ -83,7 +105,7 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		width: "auto",
-		marginLeft: 30,
+		marginLeft: 20,
 		padding: 10,
 	},
 });
