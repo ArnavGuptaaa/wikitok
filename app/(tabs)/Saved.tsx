@@ -31,8 +31,6 @@ export const Saved = () => {
 	};
 
 	useEffect(() => {
-		console.log("RANN");
-
 		const getSavedPosts = async () => {
 			const value = (await getSavedPostsFromStorage()) ?? [];
 			setSavedPosts(value);
