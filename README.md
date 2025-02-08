@@ -1,3 +1,4 @@
+
 <div align="center">
     <h1>Wikitok</h1>
 </div>
@@ -8,7 +9,7 @@ Tiktok, but it's Wikipedia. Wikitok combines the addictive TikTok scroll with th
 <div>
     <h2>Screenshots</h2>
     <div align="center">
-        <video src="./readme/demo.mp4">
+        <video src="https://github.com/user-attachments/assets/c1917cc3-5c97-4449-b9a8-f7a9f3c2d9e3">
     </div>
 </div>
 
