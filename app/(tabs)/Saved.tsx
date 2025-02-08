@@ -11,9 +11,11 @@ import {
 	getSavedPostsFromStorage,
 	savePostsInStorage,
 } from "@/utils/savePostUtils";
+import { useIsFocused } from "@react-navigation/native";
 
-export default function Saved() {
+export const Saved = () => {
 	const [savedPosts, setSavedPosts] = useState<Post[]>([]);
+	const isFocused = useIsFocused();
 
 	const handleDelete = async (e: GestureResponderEvent, id: number) => {
 		e.stopPropagation();
@@ -35,7 +37,7 @@ export default function Saved() {
 		};
 
 		getSavedPosts();
-	}, []);
+	}, [isFocused]);
 
 	return (
 		<View style={styles.container}>
@@ -51,7 +53,7 @@ export default function Saved() {
 			</View>
 		</View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {

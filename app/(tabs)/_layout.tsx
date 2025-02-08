@@ -59,6 +59,9 @@ export default function TabLayout() {
 						<TabBarIcon name="bookmark-o" color={color} />
 					),
 				}}
+				// listeners={({ navigation }) => ({
+				// 	tabPress: (e) => {},
+				// })}
 			/>
 		</Tabs>
 	);
