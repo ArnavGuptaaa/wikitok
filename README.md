@@ -8,7 +8,7 @@ Tiktok, but it's Wikipedia. Wikitok combines the addictive TikTok scroll with th
 <div>
     <h2>Screenshots</h2>
     <div align="center">
-        <video src="./readme/demo.mov">
+        <video src="./readme/demo.mp4">
     </div>
 </div>
 
