@@ -7,11 +7,11 @@ import { ArticleCard } from "@/components/ArticleCard";
 export default function Feed() {
 	const [posts, setPosts] = useState<Post[]>();
 	useEffect(() => {
-		const test = async () => {
+		const fetchPostsAsync = async () => {
 			setPosts(await fetchPosts());
 		};
 
-		test();
+		fetchPostsAsync();
 	}, []);
 
 	const handleEndReached = async () => {
