@@ -2,6 +2,8 @@ import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import { TAB_ONE_LABEL, TAB_TWO_LABEL } from "@/constants/Labels";
+import { useColorScheme } from "react-native";
+import { DARK_THEME, LIGHT_THEME } from "@/constants/Colors";
 
 function TabBarIcon(props: {
 	name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -11,17 +13,28 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
+	const colorScheme = useColorScheme();
+
 	return (
 		<Tabs
 			screenOptions={{
 				tabBarLabelStyle: { marginTop: 5 },
 				tabBarStyle: {
-					backgroundColor: "#121212",
+					backgroundColor:
+						colorScheme === "light"
+							? LIGHT_THEME.BACKGROUND
+							: DARK_THEME.BACKGROUND,
 					borderTopWidth: 0,
 					borderTopColor: "transparent",
 				},
-				tabBarActiveTintColor: "#af9ecc",
-				tabBarInactiveTintColor: "#3f3f3f",
+				tabBarActiveTintColor:
+					colorScheme === "light"
+						? LIGHT_THEME.ACCENT
+						: DARK_THEME.ACCENT,
+				tabBarInactiveTintColor:
+					colorScheme === "light"
+						? LIGHT_THEME.MUTED
+						: DARK_THEME.MUTED,
 			}}
 		>
 			<Tabs.Screen
@@ -31,7 +44,10 @@ export default function TabLayout() {
 					headerTransparent: true,
 					headerTitleAlign: "left",
 					headerTitleStyle: {
-						color: "#af9ecc",
+						color:
+							colorScheme === "light"
+								? LIGHT_THEME.ACCENT
+								: DARK_THEME.ACCENT,
 						fontWeight: "bold",
 						fontSize: 40,
 						height: 50,
@@ -49,7 +65,10 @@ export default function TabLayout() {
 					headerTransparent: true,
 					headerTitleAlign: "left",
 					headerTitleStyle: {
-						color: "#af9ecc",
+						color:
+							colorScheme === "light"
+								? LIGHT_THEME.ACCENT
+								: DARK_THEME.ACCENT,
 						fontWeight: "bold",
 						fontSize: 40,
 						height: 50,
